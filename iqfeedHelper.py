@@ -6,7 +6,7 @@ import pandas as pd
 from io import StringIO
 from datetime import date,datetime as dt
 
-
+# Retrieves interval(seconds) data between bdatetime and edatetime(optional) for specified symbol. Filter time(optional)
 def getHistoricalTimeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efiltertime=""):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -34,6 +34,7 @@ def getHistoricalTimeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efi
 
     return data
 
+# Retrieves numBars number of interval data for specified symbol
 def getNumberHistoricalTimeBars(sym,interval,numBars):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -60,6 +61,8 @@ def getNumberHistoricalTimeBars(sym,interval,numBars):
     data.index = pd.to_datetime(data.index)
 
     return data
+
+# Retrieves numBars number of volume interval data for specified symbol
 def getNumberHistoricalVolumeBars(sym,interval,numBars):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -87,6 +90,7 @@ def getNumberHistoricalVolumeBars(sym,interval,numBars):
 
     return data
 
+# Retrieves numDays days of interval data for specified symbol
 def getHistoricalTimeBarsForDays(sym,interval,numDays,bfiltertime="",efiltertime=""):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -114,6 +118,7 @@ def getHistoricalTimeBarsForDays(sym,interval,numDays,bfiltertime="",efiltertime
 
     return data
 
+# Retrieves daily HLOC, Volume, Open Interest data between bdatetime and edateime(optional) for specified symbol
 def getDailyData(sym,bdatetime,edatetime=""):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -141,6 +146,8 @@ def getDailyData(sym,bdatetime,edatetime=""):
     data.index = data.index.date
 
     return data
+
+# Retrieves numDays days of daily data between bdatetime and edateime(optional) for specified symbol
 def getNumberDailyData(sym,numDays):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -169,6 +176,7 @@ def getNumberDailyData(sym,numDays):
 
     return data
 
+# Retrieves tick data between bdatetime and edatetime(optional) with optional filter time for specified symbol
 def getHistoricalTicks(sym,bdatetime,edatetime="",bfiltertime="",efiltertime=""):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -196,6 +204,7 @@ def getHistoricalTicks(sym,bdatetime,edatetime="",bfiltertime="",efiltertime="")
 
     return data
 
+# Retrieves numTicks number of tick data for specified symbol
 def getNumberTicks(sym,numTicks):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -223,6 +232,7 @@ def getNumberTicks(sym,numTicks):
 
     return data
 
+# Retrieves numDays days of tick data for specified symbol with optional filter time
 def getTicksForDays(sym,numDays,bfiltertime="",efiltertime=""):
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
@@ -254,6 +264,22 @@ def getOpenInterestForProducts(productArray,numDays):
     for product in productArray:
         df = getNumberDailyData(product,30)
         print(df)
+
+# Build iqFeed symbols for specified symbol, months and years
+def buildFuturesChain(sym,months,years):
+    fCode =[]
+    for y in years:
+        for m in months:
+            fC = sym+m+y
+            fCode.append(fC)
+    return fCode
+
+# Get CFTC Commitment of Traders Data for specified product and field
+def getCOT(prodCode,fieldCode,beginDate,endDate=""):
+    requestCode = "CF_" + prodCode + "_" + fieldCode
+    data = getDailyData(requestCode,beginDate,endDate)
+    return data.Close
+
 
 
 
