@@ -138,6 +138,7 @@ def getDailyData(sym,bdatetime,edatetime=""):
     # Convert to Pandas data frame and set datetime as index
     data = pd.read_csv(StringIO(data), index_col=0, header=None,names=['High','Low','Open','Close','Volume','OpenInterest'])
     data.index = pd.to_datetime(data.index)
+    data.index = data.index.date
 
     return data
 def getNumberDailyData(sym,numDays):
@@ -163,7 +164,8 @@ def getNumberDailyData(sym,numDays):
     data = data.replace(",\n", "\n")[:-1]
     # Convert to Pandas data frame and set datetime as index
     data = pd.read_csv(StringIO(data), index_col=0, header=None,names=['High','Low','Open','Close','Volume','OpenInterest'])
-    data.index = pd.to_datetime(data.index,format="%Y-%m-%d")
+    data.index = pd.to_datetime(data.index)
+    data.index = data.index.date
 
     return data
 
