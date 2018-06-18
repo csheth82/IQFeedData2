@@ -4,7 +4,10 @@ import sys
 import socket
 import pandas as pd
 from io import StringIO
-from datetime import date,datetime as dt
+from datetime import datetime
+
+#def fetchData(message)
+
 
 # Retrieves interval(seconds) data between bdatetime and edatetime(optional) for specified symbol. Filter time(optional)
 def getHistoricalTimeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efiltertime=""):
@@ -17,7 +20,7 @@ def getHistoricalTimeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efi
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -45,7 +48,7 @@ def getNumberHistoricalTimeBars(sym,interval,numBars):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -73,7 +76,7 @@ def getNumberHistoricalVolumeBars(sym,interval,numBars):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -101,7 +104,7 @@ def getHistoricalTimeBarsForDays(sym,interval,numDays,bfiltertime="",efiltertime
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -129,7 +132,7 @@ def getDailyData(sym,bdatetime,edatetime=""):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -158,7 +161,7 @@ def getNumberDailyData(sym,numDays):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -187,7 +190,7 @@ def getHistoricalTicks(sym,bdatetime,edatetime="",bfiltertime="",efiltertime="")
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -215,7 +218,7 @@ def getNumberTicks(sym,numTicks):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -243,7 +246,7 @@ def getTicksForDays(sym,numDays,bfiltertime="",efiltertime=""):
     buffer = ""
     data = ""
     while True:
-        data = sock.recv(32768).decode('utf-8')
+        data = sock.recv(4096).decode('utf-8')
         buffer += data
 
         # Check if the end message string arrives
@@ -260,7 +263,7 @@ def getTicksForDays(sym,numDays,bfiltertime="",efiltertime=""):
 
     return data
 
-def getOpenInterestForProducts(productArray,numDays):
+def getSeasonalOpenInterestForProducts(productArray,numDays):
     for product in productArray:
         df = getNumberDailyData(product,30)
         print(df)
@@ -273,6 +276,35 @@ def buildFuturesChain(sym,months,years):
             fC = sym+m+y
             fCode.append(fC)
     return fCode
+
+def getActiveFuturesForProduct(sym):
+    host = "127.0.0.1"  # Localhost
+    port = 9100  # Historical data socket port
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((host, port))
+    monthcodes = "FGHJKMNQUVXZ"
+    currYear = datetime.today().year
+    years = str(currYear)[-1] + str(currYear+1)[-1]
+    message = "CFU,%s,%s,%s\n" % (sym,monthcodes,years)
+    sock.sendall(message.encode())
+    buffer = ""
+    data = ""
+    while True:
+        data = sock.recv(4096).decode('utf-8')
+        buffer += data
+
+        # Check if the end message string arrives
+        if "!ENDMSG!" in buffer:
+            break
+    # Remove the end message string
+    data = buffer[:-12]
+    sock.close
+    data = "".join(data.split("\r"))
+    data = data.replace(",\n", "\n")[:-1]
+    data = data.split(",")
+
+    return data
+
 
 # Get CFTC Commitment of Traders Data for specified product and field
 def getCOT(prodCode,fieldCode,beginDate,endDate=""):
