@@ -29,7 +29,6 @@ def fetchData(message):
     return  data
 
 
-
 # Retrieves interval(seconds) data between bdatetime and edatetime(optional) for specified symbol. Filter time(optional)
 def getHistoricalTimeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efiltertime=""):
     message = "HIT,%s,%s,%s,%s,,%s,%s,1\n" % (sym,interval,bdatetime,edatetime,bfiltertime,efiltertime)
@@ -51,6 +50,14 @@ def getNumberHistoricalTimeBars(sym,interval,numBars):
 # Retrieves numBars number of volume interval data for specified symbol
 def getNumberHistoricalVolumeBars(sym,interval,numBars):
     message = "HIX,%s,%s,%s,1,,,v\n" % (sym,interval,numBars)
+    data = fetchData(message)
+    # Convert to Pandas data frame and set datetime as index
+    data = pd.read_csv(StringIO(data), index_col=0, header=None,names=['High','Low','Open','Close','totVolume','intVolume'])
+    data.index = pd.to_datetime(data.index)
+    return data
+
+def getHistoricalVolumeBars(sym,interval,bdatetime,edatetime="",bfiltertime="",efiltertime=""):
+    message = "HIT,%s,%s,%s,%s,,%s,%s,1,,,v\n" % (sym,interval,bdatetime,edatetime,bfiltertime,efiltertime)
     data = fetchData(message)
     # Convert to Pandas data frame and set datetime as index
     data = pd.read_csv(StringIO(data), index_col=0, header=None,names=['High','Low','Open','Close','totVolume','intVolume'])

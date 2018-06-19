@@ -17,8 +17,8 @@
       <file leaf-file-name="iqfeedHelper.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/iqfeedHelper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            <state relative-caret-position="-1235">
+              <caret line="66" column="39" selection-start-line="66" selection-start-column="39" selection-end-line="66" selection-end-column="39" />
               <folding>
                 <element signature="e#13#23#0" expanded="true" />
               </folding>
@@ -112,12 +112,25 @@
       <option name="project" value="LOCAL" />
       <updated>1529001038040</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added more functions">
+      <created>1529343468607</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1529343468607</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Removed redundant steps in functions and created a function call for the step">
+      <created>1529344049279</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1529344049279</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="2568" height="1396" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -143,7 +156,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added more functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more functions" />
+    <MESSAGE value="Removed redundant steps in functions and created a function call for the step" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed redundant steps in functions and created a function call for the step" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/iqfeedHelper.py">
@@ -169,8 +188,8 @@
     <entry file="file://$PROJECT_DIR$/../IQFeed/newexample.py" />
     <entry file="file://$PROJECT_DIR$/iqfeedHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        <state relative-caret-position="-1235">
+          <caret line="66" column="39" selection-start-line="66" selection-start-column="39" selection-end-line="66" selection-end-column="39" />
           <folding>
             <element signature="e#13#23#0" expanded="true" />
           </folding>
