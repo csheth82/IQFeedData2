@@ -1,6 +1,5 @@
 # iqfeed.py
 
-import sys
 import socket
 import pandas as pd
 from io import StringIO
