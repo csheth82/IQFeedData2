@@ -66,12 +66,8 @@ def bollinger_band_perc(df, n, K, column_name):
     df = df.join(bP)
     return df
 
-def ppsr(df):
-    """Calculate Pivot Points, Supports and Resistances for given data
+def pivotPointSR(df):
 
-    :param df: pandas.DataFrame
-    :return: pandas.DataFrame
-    """
     PP = pd.Series((df['High'] + df['Low'] + df['Close']) / 3)
     R1 = pd.Series(2 * PP - df['Low'])
     S1 = pd.Series(2 * PP - df['High'])
@@ -79,32 +75,66 @@ def ppsr(df):
     S2 = pd.Series(PP - df['High'] + df['Low'])
     R3 = pd.Series(df['High'] + 2 * (PP - df['Low']))
     S3 = pd.Series(df['Low'] - 2 * (df['High'] - PP))
-    psr = {'PP': PP, 'R1': R1, 'S1': S1, 'R2': R2, 'S2': S2, 'R3': R3, 'S3': S3}
-    PSR = pd.DataFrame(psr)
+    PSR= {'PP': PP, 'R1': R1, 'S1': S1, 'R2': R2, 'S2': S2, 'R3': R3, 'S3': S3}
+    PSR = pd.DataFrame(PSR)
     df = df.join(PSR)
     return df
 
+def stoch_oscillator_k(df,n):
 
-def stochastic_oscillator_k(df):
-    """Calculate stochastic oscillator %K for given data.
-
-    :param df: pandas.DataFrame
-    :return: pandas.DataFrame
-    """
-    SOk = pd.Series((df['Close'] - df['Low']) / (df['High'] - df['Low']), name='SO%k')
+    low_n = df['Low'].rolling(n,min_periods=n).min()
+    high_n = df['High'].rolling(n,min_periods=n).max()
+    SOk = pd.Series((df['Close'] -low_n ) / (high_n - low_n), name='SOk')
     df = df.join(SOk)
     return df
 
+def stoch_oscillator_d(df, n):
 
-def stochastic_oscillator_d(df, n):
-    """Calculate stochastic oscillator %D for given data.
-    :param df: pandas.DataFrame
-    :param n:
-    :return: pandas.DataFrame
-    """
-    SOk = pd.Series((df['Close'] - df['Low']) / (df['High'] - df['Low']), name='SO%k')
-    SOd = pd.Series(SOk.ewm(span=n, min_periods=n).mean(), name='SO%d_' + str(n))
+    low_n = df['Low'].rolling(n,min_periods=n).min()
+    high_n = df['High'].rolling(n,min_periods=n).max()
+    SOk = pd.Series((df['Close'] -low_n ) / (high_n - low_n), name='SOk')
+    SOd = pd.Series(SOk.ewm(span=n, min_periods=n).mean(), name='SOd_' + str(n))
     df = df.join(SOd)
+    return df
+
+def macd(df, n_fast, n_slow, n_macd):
+
+    EMA_fast = pd.Series(df['Close'].ewm(span=n_fast, min_periods=n_slow).mean())
+    EMA_slow = pd.Series(df['Close'].ewm(span=n_slow, min_periods=n_slow).mean())
+    MACD = pd.Series(EMA_fast - EMA_slow, name='MACD_' + str(n_fast) + '_' + str(n_slow))
+    MACDsignal = pd.Series(MACD.ewm(span=n_macd, min_periods=n_macd).mean(), name='MACDsignal_' + str(n_fast) + '_' + str(n_slow))
+    MACDdiff = pd.Series(MACD - MACDsignal, name='MACDdiff_' + str(n_fast) + '_' + str(n_slow))
+    df = df.join(MACD)
+    df = df.join(MACDsignal)
+    df = df.join(MACDdiff)
+    return df
+
+def relative_strength_index(df, n):
+
+    i = 0
+    UpI = [0]
+    DoI = [0]
+    while i + 1 <= (df.shape[0]-1):
+        move = df['Close'][i+1] - df['Close'][i]
+        if move>0:
+            U = move
+            D = 0
+        elif move < 0:
+            U = 0
+            D = -1*move
+        else:
+            U = 0
+            D = 0
+        UpI.append(U)
+        DoI.append((D))
+        i = i + 1
+    UpI = pd.Series(UpI)
+    DoI = pd.Series(DoI)
+    Up_MA = pd.Series(UpI.ewm(span=n, min_periods=n).mean())
+    Down_MA = pd.Series(DoI.ewm(span=n, min_periods=n).mean())
+    RS = Up_MA / Down_MA
+    RSI = pd.Series(100-100/(1+RS), name='RSI_' + str(n))
+    df['RSI'] = RSI.values
     return df
 
 
@@ -172,23 +202,7 @@ def average_directional_movement_index(df, n, n_ADX):
     return df
 
 
-def macd(df, n_fast, n_slow):
-    """Calculate MACD, MACD Signal and MACD difference
 
-    :param df: pandas.DataFrame
-    :param n_fast:
-    :param n_slow:
-    :return: pandas.DataFrame
-    """
-    EMAfast = pd.Series(df['Close'].ewm(span=n_fast, min_periods=n_slow).mean())
-    EMAslow = pd.Series(df['Close'].ewm(span=n_slow, min_periods=n_slow).mean())
-    MACD = pd.Series(EMAfast - EMAslow, name='MACD_' + str(n_fast) + '_' + str(n_slow))
-    MACDsign = pd.Series(MACD.ewm(span=9, min_periods=9).mean(), name='MACDsign_' + str(n_fast) + '_' + str(n_slow))
-    MACDdiff = pd.Series(MACD - MACDsign, name='MACDdiff_' + str(n_fast) + '_' + str(n_slow))
-    df = df.join(MACD)
-    df = df.join(MACDsign)
-    df = df.join(MACDdiff)
-    return df
 
 
 def mass_index(df):

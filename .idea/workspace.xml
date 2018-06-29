@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9059ea79-92c4-4c7f-95cd-f6a2fd36abc1" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/technical_indicators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iqfeedHelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/iqfeedHelper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/technical_indicators.py" beforeDir="false" afterPath="$PROJECT_DIR$/technical_indicators.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +29,8 @@
       <file leaf-file-name="technical_indicators.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/technical_indicators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="62" column="30" lean-forward="true" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
+            <state relative-caret-position="620">
+              <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
               <folding>
                 <element signature="e#21#40#0" expanded="true" />
               </folding>
@@ -147,11 +146,18 @@
       <option name="project" value="LOCAL" />
       <updated>1529435605348</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added Technical Indicators">
+      <created>1530213948761</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1530213948761</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="2568" height="1396" extended-state="6" />
+    <frame x="-4" y="-4" width="2568" height="1396" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1359375" />
@@ -180,7 +186,8 @@
     <MESSAGE value="Added more functions" />
     <MESSAGE value="Removed redundant steps in functions and created a function call for the step" />
     <MESSAGE value="Added getHistoricalVolumeBars function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added getHistoricalVolumeBars function" />
+    <MESSAGE value="Added Technical Indicators" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Technical Indicators" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -231,8 +238,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/technical_indicators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="62" column="30" lean-forward="true" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
+        <state relative-caret-position="620">
+          <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
           <folding>
             <element signature="e#21#40#0" expanded="true" />
           </folding>
